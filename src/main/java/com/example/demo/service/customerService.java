@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.CustomerDAO;
+import com.example.demo.exception.CustomerNotFoundException;
 import com.example.demo.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,12 +40,16 @@ public class customerService {
 
     }
 
-    public Customer getCustomer(int id){
+    public Customer getCustomer(int id) {
         /*return customerList
                 .stream()
                 .filter(c -> c.getId() == id)
                 .findFirst()
                 .get();*/
+
+        if(!customerDAO.findById(id).isPresent()){
+            throw new CustomerNotFoundException("Customer Not Found");
+        }
 
         return customerDAO.findById(id).get();
     }
