@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
@@ -47,7 +48,9 @@ public class customerService {
                 .findFirst()
                 .get();*/
 
-        if(!customerDAO.findById(id).isPresent()){
+        Optional<Customer> optcustomer = customerDAO.findById(id);
+
+        if(!optcustomer.isPresent()){
             throw new CustomerNotFoundException("Customer Not Found");
         }
 
